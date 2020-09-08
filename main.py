@@ -5,7 +5,6 @@ import tkinter.messagebox
 import sys
 import json
 
-
 debug = "false"
 
 url = 'https://discord.com/oauth2/authorize?client_id=665854713845121025&permissions=8&scope=bot'
@@ -58,7 +57,7 @@ def volume():
         print(m.text)
 
 def np():
-    m =requests.get(apiurl + "?action=status&channel=" + channelid.get())
+    m = requests.get(apiurl + "?action=status&channel=" + channelid.get())
     tkinter.messagebox.showinfo(botname, m.json()["title"])
     if debug == "true":
         print("Now Playing executed")
@@ -67,7 +66,7 @@ def np():
 def other():
     tkinter.messagebox.showinfo(botname,'Bot by rexjohannes98 and f1nniboy')
     m = requests.get(apiurl + "?action=stats")
-    tkinter.messagebox.showinfo(botname,m.json()["guilds"] + " - Server\n" + m.json()["users"] + " - User\n" + m.json()["channels"] + " - Channel")
+    tkinter.messagebox.showinfo(botname,m.json()["guilds"] + " - Server\n" + m.json()["users"] + " - User\n" + m.json()["channels"] + " - Channel\n"+ m.json()["cpu"] + " - CPU\n" + m.json()["ram"] + " - RAM\n" + m.json()["botUptime"] + " - Bot-Uptime")
     if debug == "true":
         print("Stats and Credits executed")
         print(m.text)
@@ -86,13 +85,28 @@ def stream():
         print("Executed Stream")
         print(m.text)
 
+def skip():
+    m = requests.get(apiurl + "?action=playlist&channel=" + channelid.get() + "&task=skip")
+    tkinter.messagebox.showinfo(botname, m.json()["response"])
+    if debug == "true":
+        print("Executed Skip")
+        print(m.text)
 
+def shuffle():
+    m = requests.get(apiurl + "?action=playlist&channel=" + channelid.get() + "&task=shuffle")
+    tkinter.messagebox.showinfo(botname, m.json()["response"])
+    if debug == "true":
+        print("Executed shuffle")
+        print(m.text)
+
+def lyrics():
+    m = requests.get(apiurl + "?action=lyrics&channel=" + channelid.get())
+    tkinter.messagebox.showinfo(botname, m.json()["response"])
 
 def radios():
     root2 = tkinter.Tk()
     root2.title(botname)
     root2.configure(background=color)
-    root.iconphoto(False, tkinter.PhotoImage(file='icon.png'))
 
     tkinter.Label(root2,
                   text="""Choose your Radio:""",
@@ -246,18 +260,22 @@ tkinter.Button(root,
     fg="black").pack()
 
 tkinter.Button(root,
-    text="Now Playing",
+    text="Skip",
     width=20,
     justify=tkinter.RIGHT,
     height=1,
     bg="#cf2dc1",
-    command=np,
+    command=skip,
     fg="black").pack()
 
-label22 = tkinter.Label(text="Misc",
-                      background=color,
-                      padx=60)
-label22.pack()
+tkinter.Button(root,
+    text="Shuffle",
+    width=20,
+    justify=tkinter.RIGHT,
+    height=1,
+    bg="#cf2dc1",
+    command=shuffle,
+    fg="black").pack()
 
 
 tkinter.Button(root,
@@ -269,6 +287,28 @@ tkinter.Button(root,
     command=onlystop,
     fg="black").pack()
 
+label22 = tkinter.Label(text="Misc",
+                      background=color,
+                      padx=60)
+label22.pack()
+
+tkinter.Button(root,
+    text="Playing",
+    width=20,
+    justify=tkinter.RIGHT,
+    height=1,
+    bg="#cf2dc1",
+    command=np,
+    fg="black").pack()
+
+tkinter.Button(root,
+    text="Lyrics",
+    width=20,
+    justify=tkinter.RIGHT,
+    height=1,
+    bg="#cf2dc1",
+    command=lyrics,
+    fg="black").pack()
 
 tkinter.Button(root,
     text="Exit",
