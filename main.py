@@ -30,8 +30,6 @@ languages = [
     ("ZoneRadio:",5),
     ("MashupFM:", 6),
     ("89RTL:", 7)
-#    ("Stream:", 8),
-#    ("YouTube:", 9)
 ]
 
 def open():
@@ -125,6 +123,91 @@ def radios():
                             value=val).pack(anchor=tkinter.W)
 
     root2.mainloop()
+
+def feedback():
+    root3 = tkinter.Tk()
+    root3.title(botname)
+    root3.configure(background=color)
+
+    tkinter.Label(root3,
+                  text="""Feedback:""",
+                  justify=tkinter.LEFT,
+                  background=color,
+                  padx=20).pack()
+
+    feed = tkinter.Entry(root3)
+    feed.insert(1, "I like the Bot")
+    feed.pack()
+
+
+    tkinter.Label(root3,
+                  text="""Suggestion:""",
+                  justify=tkinter.LEFT,
+                  background=color,
+                  padx=20).pack()
+
+    sug = tkinter.Entry(root3)
+    sug.insert(1, "Add Twitch Support / Njoy Radio")
+    sug.pack()
+
+
+    tkinter.Label(root3,
+                  text="""Bug:""",
+                  justify=tkinter.LEFT,
+                  background=color,
+                  padx=20).pack()
+
+    bug = tkinter.Entry(root3)
+    bug.insert(1, "This Windows has no Icon")
+    bug.pack()
+
+    def sendfeed():
+        m = requests.get(apiurl + "?action=feedback&message=" + feed.get())
+        tkinter.messagebox.showinfo(botname, m.json()["response"])
+        if debug == "true":
+            print(m.text)
+
+    def sendsug():
+        m = requests.get(apiurl + "?action=suggestions&message=" + sug.get())
+        tkinter.messagebox.showinfo(botname, m.json()["response"])
+        if debug == "true":
+            print(m.text)
+
+    def sendbug():
+        m = requests.get(apiurl + "?action=bugs&message=" + bug.get())
+        tkinter.messagebox.showinfo(botname, m.json()["response"])
+        if debug == "true":
+            print(m.text)
+
+
+    tkinter.Button(root3,
+                   text="Send Feedback",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg="#cf2dc1",
+                   command=sendfeed,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="Send Suggestion",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg="#cf2dc1",
+                   command=sendsug,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="Send Bug",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg="#cf2dc1",
+                   command=sendbug,
+                   fg="black").pack()
+
+    root3.mainloop()
 
 
 def ShowChoice():
@@ -317,6 +400,15 @@ tkinter.Button(root,
     height=1,
     bg="#cf2dc1",
     command=exiting,
+    fg="black").pack()
+
+tkinter.Button(root,
+    text="Contact",
+    width=20,
+    justify=tkinter.RIGHT,
+    height=1,
+    bg="#cf2dc1",
+    command=feedback,
     fg="black").pack()
 
 
