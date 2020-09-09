@@ -18,6 +18,7 @@ root.iconphoto(False, tkinter.PhotoImage(file='icon.png'))
 root.configure(background=color)
 
 
+
 v = tkinter.IntVar()
 v.set(0)
 
@@ -41,21 +42,21 @@ def exiting():
     sys.exit()
 
 def onlystop():
-    m = requests.get(apiurl + "?action=leave&channel=" + channelid.get())
+    m = requests.get(apiurl + "?action=leave&session=" + session.get())
     tkinter.messagebox.showinfo(botname,m.json()["response"])
     if debug == "true":
         print("Stop executed")
         print(m.text)
 
 def volume():
-    m = requests.get(apiurl + "?action=volume&channel=" + channelid.get() + "&volume=" + vol.get())
+    m = requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
     tkinter.messagebox.showinfo(botname, m.json()["response"])
     if debug == "true":
         print("Volume executed")
         print(m.text)
 
 def np():
-    m = requests.get(apiurl + "?action=status&channel=" + channelid.get())
+    m = requests.get(apiurl + "?action=status&session=" + session.get())
     tkinter.messagebox.showinfo(botname, m.json()["title"])
     if debug == "true":
         print("Now Playing executed")
@@ -70,28 +71,28 @@ def other():
         print(m.text)
 
 def youtube():
-    m = requests.get(apiurl + "?action=play&channel=" + channelid.get() + "&search=" + yt2.get())
+    m = requests.get(apiurl + "?action=play&session=" + session.get() + "&search=" + yt2.get())
     tkinter.messagebox.showinfo(botname, m.json()["title"])
     if debug == "true":
         print("Executed YouTube")
         print(m.text)
 
 def stream():
-    m = requests.get(apiurl + "?action=radio&channel=" + channelid.get() + "&stream=" + yt.get())
+    m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=" + yt.get())
     tkinter.messagebox.showinfo(botname, m.json()["response"])
     if debug == "true":
         print("Executed Stream")
         print(m.text)
 
 def skip():
-    m = requests.get(apiurl + "?action=playlist&channel=" + channelid.get() + "&task=skip")
+    m = requests.get(apiurl + "?action=playlist&session=" + session.get() + "&task=skip")
     tkinter.messagebox.showinfo(botname, m.json()["response"])
     if debug == "true":
         print("Executed Skip")
         print(m.text)
 
 def shuffle():
-    m = requests.get(apiurl + "?action=playlist&channel=" + channelid.get() + "&task=shuffle")
+    m = requests.get(apiurl + "?action=playlist&session=" + session.get() + "&task=shuffle")
     tkinter.messagebox.showinfo(botname, m.json()["response"])
     if debug == "true":
         print("Executed shuffle")
@@ -100,6 +101,25 @@ def shuffle():
 def lyrics():
     m = requests.get(apiurl + "?action=lyrics&channel=" + channelid.get())
     tkinter.messagebox.showinfo(botname, m.json()["response"])
+
+def login():
+    webbrowser.open(apiurl + "?action=login")
+
+tkinter.Button(root,
+    text="Login",
+    width=20,
+    justify=tkinter.RIGHT,
+    height=1,
+    bg="#cf2dc1",
+    command=login,
+    fg="black").pack()
+
+label333 = tkinter.Label(text="Session",
+                      background=color)
+session = tkinter.Entry()
+session.insert(1, "")
+label333.pack()
+session.pack()
 
 def radios():
     root2 = tkinter.Tk()
@@ -162,19 +182,19 @@ def feedback():
     bug.pack()
 
     def sendfeed():
-        m = requests.get(apiurl + "?action=feedback&message=" + feed.get())
+        m = requests.get(apiurl + "?action=feedback&message=" + feed.get() + "&session=" + session.get())
         tkinter.messagebox.showinfo(botname, m.json()["response"])
         if debug == "true":
             print(m.text)
 
     def sendsug():
-        m = requests.get(apiurl + "?action=suggestions&message=" + sug.get())
+        m = requests.get(apiurl + "?action=suggestions&message=" + sug.get() + "&session=" + session.get())
         tkinter.messagebox.showinfo(botname, m.json()["response"])
         if debug == "true":
             print(m.text)
 
     def sendbug():
-        m = requests.get(apiurl + "?action=bugs&message=" + bug.get())
+        m = requests.get(apiurl + "?action=bugs&message=" + bug.get() + "&session=" + session.get())
         tkinter.messagebox.showinfo(botname, m.json()["response"])
         if debug == "true":
             print(m.text)
@@ -213,28 +233,28 @@ def feedback():
 def ShowChoice():
     i = v.get()
     if i == 0:
-        m = requests.get(apiurl + "?action=radio&channel=" + channelid.get() + "&stream=https://stream.laut.fm/rexradio")
+        m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=https://stream.laut.fm/rexradio")
         tkinter.messagebox.showinfo(botname, m.json()["response"])
     if i == 1:
-        m = requests.get(apiurl + "?action=radio&channel=" + channelid.get() + "&stream=https://streams.ilovemusic.de/iloveradio1.mp3")
+        m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=https://streams.ilovemusic.de/iloveradio1.mp3")
         tkinter.messagebox.showinfo(botname, m.json()["response"])
     if i == 2:
-        m = requests.get(apiurl + "?action=radio&channel=" + channelid.get() + "&stream=https://streams.ilovemusic.de/iloveradio2.mp3")
+        m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=https://streams.ilovemusic.de/iloveradio2.mp3")
         tkinter.messagebox.showinfo(botname, m.json()["response"])
     if i == 3:
-        m = requests.get(apiurl + "?action=radio&channel=" + channelid.get() + "&stream=https://streams.ilovemusic.de/iloveradio5.mp3")
+        m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=https://streams.ilovemusic.de/iloveradio5.mp3")
         tkinter.messagebox.showinfo(botname, m.json()["response"])
     if i == 4:
-        m = requests.get(apiurl + "?action=radio&channel=" + channelid.get() + "&stream=https://reyfm-stream04.radiohost.de/reyfm-original_mp3-320")
+        m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=https://reyfm-stream04.radiohost.de/reyfm-original_mp3-320")
         tkinter.messagebox.showinfo(botname, m.json()["response"])
     if i == 5:
-        m = requests.get(apiurl + "?action=radio&channel=" + channelid.get() + "&stream=https://stream01.zoneradio.de/zoneradio_hq")
+        m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=https://stream01.zoneradio.de/zoneradio_hq")
         tkinter.messagebox.showinfo(botname, m.json()["response"])
     if i == 6:
-        m = requests.get(apiurl + "?action=radio&channel=" + channelid.get() + "&stream=https://stream.laut.fm/mashupfm")
+        m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=https://stream.laut.fm/mashupfm")
         tkinter.messagebox.showinfo(botname, m.json()["response"])
     if i == 7:
-        m = requests.get(apiurl + "?action=radio&channel=" + channelid.get() + "&stream=http://stream.89.0rtl.de/live/mp3-128/direktlinkHP/")
+        m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=http://stream.89.0rtl.de/live/mp3-128/direktlinkHP/")
         tkinter.messagebox.showinfo(botname, m.json()["response"])
 #    if i == 8:
 #        m = requests.get(apiurl + "?action=radio&channel=" + channelid.get() + "&stream=" + yt.get())
@@ -279,12 +299,12 @@ tkinter.Button(root,
     command=youtube,
     fg="black").pack()
 
-label = tkinter.Label(text="ChannelID",
-                      background=color)
-channelid = tkinter.Entry()
-channelid.insert(1, "637374099471204353")
-label.pack()
-channelid.pack()
+#label = tkinter.Label(text="ChannelID",
+#                     background=color)
+#channelid = tkinter.Entry()
+#channelid.insert(1, "637374099471204353")
+#label.pack()
+#channelid.pack()
 
 
 
@@ -429,6 +449,5 @@ tkinter.Button(root,
     bg="#cf2dc1",
     command=open,
     fg="black").pack()
-
 
 root.mainloop()
