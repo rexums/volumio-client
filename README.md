@@ -1,3 +1,3 @@
 # unique-player
 
-http://unique-music.ml:3030/
+http://api.unique-music.xyz:3030/
