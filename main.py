@@ -9,7 +9,7 @@ debug = "false"
 
 url = 'https://discord.com/oauth2/authorize?client_id=665854713845121025&permissions=8&scope=bot'
 color = "#9e6cf5"
-apiurl = "http://admin.rexjohannes.ovh:3030/"
+apiurl = "http://api.unique-music.xyz:3030/"
 botname = "Unique-Music"
 
 root = tkinter.Tk()
