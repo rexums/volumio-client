@@ -5,18 +5,23 @@ import tkinter.messagebox
 import sys
 import json
 
-debug = "false"
+debug = "true"
 
 url = 'https://discord.com/oauth2/authorize?client_id=665854713845121025&permissions=8&scope=bot'
 color = "#9e6cf5"
 apiurl = "http://api.unique-music.xyz:3030/"
 botname = "Unique-Music"
+botwebsite = "https://unique-music.xyz/"
+download = "https://raw.githubusercontent.com/rexjohannes/unique-player/master/main.py"
+
+ver = requests.get("https://raw.githubusercontent.com/rexjohannes/unique-player/master/version.txt")
+vers = ver.text
+vers = int(vers)
 
 root = tkinter.Tk()
 root.title(botname)
 root.iconphoto(False, tkinter.PhotoImage(file='icon.png'))
 root.configure(background=color)
-
 
 
 v = tkinter.IntVar()
@@ -98,9 +103,16 @@ def shuffle():
         print("Executed shuffle")
         print(m.text)
 
-def lyrics():
-    m = requests.get(apiurl + "?action=lyrics&channel=" + channelid.get())
+def clearplaylist():
+    m = requests.get(apiurl + "?action=playlist&task=clear&session=" + session.get())
     tkinter.messagebox.showinfo(botname, m.json()["response"])
+    if debug == "true":
+        print("Executed clear")
+        print(m.text)
+
+def website():
+    webbrowser.open(botwebsite)
+
 
 def login():
     webbrowser.open(apiurl + "?action=login")
@@ -380,6 +392,15 @@ tkinter.Button(root,
     command=shuffle,
     fg="black").pack()
 
+tkinter.Button(root,
+    text="Clear",
+    width=20,
+    justify=tkinter.RIGHT,
+    height=1,
+    bg="#cf2dc1",
+    command=clearplaylist,
+    fg="black").pack()
+
 
 tkinter.Button(root,
     text="Stop",
@@ -404,14 +425,14 @@ tkinter.Button(root,
     command=np,
     fg="black").pack()
 
-tkinter.Button(root,
-    text="Lyrics",
-    width=20,
-    justify=tkinter.RIGHT,
-    height=1,
-    bg="#cf2dc1",
-    command=lyrics,
-    fg="black").pack()
+#tkinter.Button(root,
+#    text="Lyrics",
+#    width=20,
+#    justify=tkinter.RIGHT,
+#    height=1,
+#    bg="#cf2dc1",
+#    command=lyrics,
+#    fg="black").pack()
 
 tkinter.Button(root,
     text="Exit",
@@ -442,6 +463,15 @@ tkinter.Button(root,
     fg="black").pack()
 
 tkinter.Button(root,
+    text="Website",
+    width=20,
+    justify=tkinter.RIGHT,
+    height=1,
+    bg="#cf2dc1",
+    command=website,
+    fg="black").pack()
+
+tkinter.Button(root,
     text="Invite Me!",
     width=20,
     justify=tkinter.RIGHT,
@@ -449,5 +479,16 @@ tkinter.Button(root,
     bg="#cf2dc1",
     command=open,
     fg="black").pack()
+
+if vers == 1:
+    pass
+
+else:
+    m = tkinter.messagebox.askokcancel(botname, "Did you want to Download the latest Version?")
+    if m == True:
+        webbrowser.open(download)
+
+if debug == "true":
+    print(vers)
 
 root.mainloop()
