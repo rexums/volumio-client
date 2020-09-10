@@ -5,4 +5,6 @@ Download: https://github.com/rexjohannes/unique-player/raw/master/icon.png + htt
 
 API: https://api.unique-music.xyz/
 
+Wiki: https://github.com/rexjohannes/unique-player/wiki
+
 Invite: https://discord.com/oauth2/authorize?client_id=665854713845121025&permissions=8&scope=bot
