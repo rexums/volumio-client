@@ -11,6 +11,8 @@ color = "#9e6cf5"
 apiurl = "https://api.unique-music.xyz/"
 botname = "Unique-Music"
 botwebsite = "https://unique-music.xyz/"
+support = "https://discord.gg/gCPFbBM"
+github = "https://github.com/rexjohannes/unique-player/"
 rawgit = "https://raw.githubusercontent.com/rexjohannes/unique-player/master/"
 download = rawgit + "main.py"
 
@@ -211,6 +213,9 @@ def feedback():
         if debug == "true":
             print(m.text)
 
+    def suppo():
+        webbrowser.open(support)
+
 
     tkinter.Button(root3,
                    text="Send Feedback",
@@ -237,6 +242,15 @@ def feedback():
                    height=1,
                    bg="#cf2dc1",
                    command=sendbug,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="Support Server",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg="#cf2dc1",
+                   command=suppo,
                    fg="black").pack()
 
     root3.mainloop()
@@ -268,12 +282,6 @@ def ShowChoice():
     if i == 7:
         m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=http://stream.89.0rtl.de/live/mp3-128/direktlinkHP/")
         tkinter.messagebox.showinfo(botname, m.json()["response"])
-#    if i == 8:
-#        m = requests.get(apiurl + "?action=radio&channel=" + channelid.get() + "&stream=" + yt.get())
-#        tkinter.messagebox.showinfo(botname, m.json()["response"])
-#    if i == 9:
-#        m = requests.get(apiurl + "?action=play&channel=" + channelid.get() + "&search=" + yt2.get())
-#        tkinter.messagebox.showinfo(botname, m.json()["title"])
 
     if debug == "true":
         print("Playing...")
@@ -311,14 +319,6 @@ tkinter.Button(root,
     command=youtube,
     fg="black").pack()
 
-#label = tkinter.Label(text="ChannelID",
-#                     background=color)
-#channelid = tkinter.Entry()
-#channelid.insert(1, "637374099471204353")
-#label.pack()
-#channelid.pack()
-
-
 
 vollabel = tkinter.Label(text="Volume",
                       background=color)
@@ -326,24 +326,6 @@ vol = tkinter.Entry()
 vol.insert(1, "30")
 vollabel.pack()
 vol.pack()
-
-
-
-#tkinter.Label(root,
-#         text="""Choose your Radio:""",
-#         justify = tkinter.LEFT,
-#         background="#cf2dc1",
-#         padx = 20).pack()
-
-#for val, language in enumerate(languages):
-#    tkinter.Radiobutton(root,
-#                  text=language,
-#                  padx = 20,
-#                  variable=v,
-#                  command=ShowChoice,
-#                  bg=color,
-#                  fg="black",
-#                  value=val).pack(anchor=tkinter.W)
 
 
 label2 = tkinter.Label(text="Stream Link",
