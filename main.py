@@ -8,12 +8,13 @@ debug = "false"
 
 url = 'https://discord.com/oauth2/authorize?client_id=665854713845121025&permissions=8&scope=bot'
 color = "#9e6cf5"
-apiurl = "http://api.unique-music.xyz:3030/"
+apiurl = "https://api.unique-music.xyz/"
 botname = "Unique-Music"
 botwebsite = "https://unique-music.xyz/"
-download = "https://raw.githubusercontent.com/rexjohannes/unique-player/master/main.py"
+rawgit = "https://raw.githubusercontent.com/rexjohannes/unique-player/master/"
+download = rawgit + "main.py"
 
-ver = requests.get("https://raw.githubusercontent.com/rexjohannes/unique-player/master/version.txt")
+ver = requests.get(rawgit + "version.txt")
 vers = ver.text
 vers = int(vers)
 
