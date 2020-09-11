@@ -1,10 +1,10 @@
 # Unique-Music
 
-Download: https://github.com/rexjohannes/unique-player/raw/master/icon.png + https://raw.githubusercontent.com/rexjohannes/unique-player/master/main.py
+<a href="https://github.com/rexjohannes/unique-player/raw/master/icon.png + https://raw.githubusercontent.com/rexjohannes/unique-player/master/main.py">Download</a>
 
 
-API: https://api.unique-music.xyz/
+<a href="https://api.unique-music.xyz/">API</a>
 
-Wiki: https://github.com/rexjohannes/unique-player/wiki
+<a href="https://github.com/rexjohannes/unique-player/wiki">Wiki</a>
 
-Invite: https://discord.com/oauth2/authorize?client_id=665854713845121025&permissions=8&scope=bot
+<a href="https://discord.com/oauth2/authorize?client_id=665854713845121025&permissions=8&scope=bot">Invite</a>
