@@ -1,6 +1,6 @@
 # Unique-Music
 
-<a href="https://github.com/rexjohannes/unique-player/raw/master/icon.png + https://raw.githubusercontent.com/rexjohannes/unique-player/master/main.py">Download</a>
+Download <a href="https://github.com/rexjohannes/unique-player/raw/master/icon.png">Logo</a> + <a href="https://raw.githubusercontent.com/rexjohannes/unique-player/master/main.py">Program</a>
 
 
 <a href="https://api.unique-music.xyz/">API</a>
