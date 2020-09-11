@@ -10,13 +10,3 @@ Download <a href="https://github.com/rexjohannes/unique-player/raw/master/icon.p
 <a href="https://discord.com/oauth2/authorize?client_id=665854713845121025&permissions=8&scope=bot">Invite</a>
 
 <a href="https://unique-music.instatus.com/">Status</a>
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-177753069-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-177753069-2');
-</script>
