@@ -6,10 +6,13 @@ import sys
 
 
 
+
+
 debug = "false"
 
 url = 'https://discord.com/oauth2/authorize?client_id=665854713845121025&permissions=8&scope=bot'
-color = "#9e6cf5"
+#color = "#9e6cf5"
+color = "#CCEEFF"
 apiurl = "https://api.unique-music.xyz/"
 botname = "Unique-Music"
 botwebsite = "https://unique-music.xyz/"
@@ -17,6 +20,9 @@ support = "https://discord.gg/gCPFbBM"
 github = "https://github.com/rexjohannes/unique-player/"
 download = botwebsite + "main.py"
 status = "https://unique-music.instatus.com"
+bcolor = "#F7819F"
+#bcolor = "#cf2dc1"
+
 
 try:
     F = open("session.txt", "r")
@@ -33,6 +39,7 @@ root = tkinter.Tk()
 root.title(botname)
 root.iconphoto(False, tkinter.PhotoImage(file='icon.png'))
 root.configure(background=color)
+
 
 
 v = tkinter.IntVar()
@@ -85,7 +92,7 @@ def np():
 def other():
     tkinter.messagebox.showinfo(botname,'Bot by rexjohannes98 and f1nniboy')
     m = requests.get(apiurl + "?action=stats")
-    tkinter.messagebox.showinfo(botname,m.json()["guilds"] + " - Server\n" + m.json()["users"] + " - User\n" + m.json()["channels"] + " - Channel\n"+ m.json()["cpu"] + " - CPU\n" + m.json()["ram"] + " - RAM\n" + m.json()["botUptime"] + " - Bot-Uptime")
+    tkinter.messagebox.showinfo(botname,m.json()["guilds"] + " - Server\n" + m.json()["users"] + " - User\n" + m.json()["channels"] + " - Channel\n"+ m.json()["cpu"] + " - CPU\n" + m.json()["ram"] + " - RAM\n" + m.json()["botUptime"] + " - Bot-Uptime\n" + m.json()["ping"] + " - Ping")
     if debug == "true":
         print("Stats and Credits executed")
         print(m.text)
@@ -168,7 +175,7 @@ def control():
                    width=20,
                    justify=tkinter.RIGHT,
                    height=1,
-                   bg="#cf2dc1",
+                   bg=bcolor,
                    command=skip,
                    fg="black").pack()
 
@@ -177,7 +184,7 @@ def control():
                    width=20,
                    justify=tkinter.RIGHT,
                    height=1,
-                   bg="#cf2dc1",
+                   bg=bcolor,
                    command=shuffle,
                    fg="black").pack()
 
@@ -186,7 +193,7 @@ def control():
                    width=20,
                    justify=tkinter.RIGHT,
                    height=1,
-                   bg="#cf2dc1",
+                   bg=bcolor,
                    command=clearplaylist,
                    fg="black").pack()
 
@@ -199,7 +206,7 @@ tkinter.Button(root,
     width=20,
     justify=tkinter.RIGHT,
     height=1,
-    bg="#cf2dc1",
+    background=bcolor,
     command=login,
     fg="black").pack()
 
@@ -221,7 +228,7 @@ def radios():
     tkinter.Label(root2,
                   text="""Choose your Radio:""",
                   justify=tkinter.LEFT,
-                  background="#cf2dc1",
+                  background=bcolor,
                   padx=20).pack()
 
     for val, language in enumerate(languages):
@@ -252,7 +259,7 @@ def moreinfo():
                    width=20,
                    justify=tkinter.RIGHT,
                    height=1,
-                   bg="#cf2dc1",
+                   bg=bcolor,
                    command=feedback,
                    fg="black").pack()
 
@@ -261,7 +268,7 @@ def moreinfo():
                    width=20,
                    justify=tkinter.RIGHT,
                    height=1,
-                   bg="#cf2dc1",
+                   bg=bcolor,
                    command=other,
                    fg="black").pack()
 
@@ -270,7 +277,7 @@ def moreinfo():
                    width=20,
                    justify=tkinter.RIGHT,
                    height=1,
-                   bg="#cf2dc1",
+                   bg=bcolor,
                    command=website,
                    fg="black").pack()
 
@@ -279,7 +286,7 @@ def moreinfo():
                    width=20,
                    justify=tkinter.RIGHT,
                    height=1,
-                   bg="#cf2dc1",
+                   bg=bcolor,
                    command=changelog,
                    fg="black").pack()
 
@@ -288,11 +295,48 @@ def moreinfo():
                    width=20,
                    justify=tkinter.RIGHT,
                    height=1,
-                   bg="#cf2dc1",
+                   bg=bcolor,
                    command=statuus,
                    fg="black").pack()
 
 
+
+def ytplaylist():
+    m = requests.get(apiurl + "?action=playlist&session=" + session.get() + "&task=add&search=" + yt3.get())
+    requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
+    tkinter.messagebox.showinfo(botname, m.json()["response"])
+    if debug == "true":
+        print(m.text)
+
+def charts():
+    m = requests.get(apiurl + "?action=playlist&session=" + session.get() + "&task=add&search=https://www.youtube.com/playlist?list=PLxhnpe8pN3TmtjcQM7zcYAKhQXPdOHS3Y")
+    requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
+    tkinter.messagebox.showinfo(botname, m.json()["response"])
+    if debug == "true":
+        print(m.text)
+
+def lists():
+    root3 = tkinter.Tk()
+    root3.title(botname)
+    root3.configure(background=color)
+
+    tkinter.Label(root3,
+                  text="""Playlists:""",
+                  justify=tkinter.LEFT,
+                  background=color,
+                  padx=20).pack()
+
+    tkinter.Button(root3,
+                   text="Charts",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg=bcolor,
+                   command=charts,
+                   fg="black").pack()
+
+
+    root3.mainloop()
 
 def feedback():
     root3 = tkinter.Tk()
@@ -353,12 +397,13 @@ def feedback():
         webbrowser.open(support)
 
 
+
     tkinter.Button(root3,
                    text="Send Feedback",
                    width=20,
                    justify=tkinter.RIGHT,
                    height=1,
-                   bg="#cf2dc1",
+                   bg=bcolor,
                    command=sendfeed,
                    fg="black").pack()
 
@@ -367,7 +412,7 @@ def feedback():
                    width=20,
                    justify=tkinter.RIGHT,
                    height=1,
-                   bg="#cf2dc1",
+                   bg=bcolor,
                    command=sendsug,
                    fg="black").pack()
 
@@ -376,7 +421,7 @@ def feedback():
                    width=20,
                    justify=tkinter.RIGHT,
                    height=1,
-                   bg="#cf2dc1",
+                   bg=bcolor,
                    command=sendbug,
                    fg="black").pack()
 
@@ -385,7 +430,7 @@ def feedback():
                    width=20,
                    justify=tkinter.RIGHT,
                    height=1,
-                   bg="#cf2dc1",
+                   bg=bcolor,
                    command=suppo,
                    fg="black").pack()
 
@@ -441,31 +486,66 @@ label13 = tkinter.Label(text="Unique-Music",
 label13.pack()
 
 tkinter.Button(root,
-    text="Radios",
-    width=20,
-    justify=tkinter.RIGHT,
-    height=1,
-    bg="#cf2dc1",
-    command=radios,
-    fg="black").pack()
+               text="YouTube",
+               width=20,
+               justify=tkinter.RIGHT,
+               height=1,
+               bg=bcolor,
+               command=youtube,
+               fg="black").pack()
+
+def addmore():
+    root3 = tkinter.Tk()
+    root3.title(botname)
+    root3.configure(background=color)
+
+    tkinter.Label(root3,
+                  text="""Players:""",
+                  justify=tkinter.LEFT,
+                  background=color,
+                  padx=20).pack()
+
+    tkinter.Button(root3,
+                   text="Stream",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg=bcolor,
+                   command=stream,
+                   fg="black").pack()
+
+
+    tkinter.Button(root3,
+                   text="Radios",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg=bcolor,
+                   command=radios,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="YouTube Playlist",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg=bcolor,
+                   command=ytplaylist,
+                   fg="black").pack()
+
+    root3.mainloop()
+
 
 tkinter.Button(root,
-    text="Stream",
-    width=20,
-    justify=tkinter.RIGHT,
-    height=1,
-    bg="#cf2dc1",
-    command=stream,
-    fg="black").pack()
+               text="More",
+               width=20,
+               justify=tkinter.RIGHT,
+               height=1,
+               bg=bcolor,
+               command=addmore,
+               fg="black").pack()
 
-tkinter.Button(root,
-    text="YouTube",
-    width=20,
-    justify=tkinter.RIGHT,
-    height=1,
-    bg="#cf2dc1",
-    command=youtube,
-    fg="black").pack()
+
 
 
 vollabel = tkinter.Label(text="Volume",
@@ -490,6 +570,13 @@ yt2.insert(1, "NCS Polka")
 label5.pack()
 yt2.pack()
 
+label10 = tkinter.Label(text="YouTube Playlist",
+                      background=color)
+yt3 = tkinter.Entry()
+yt3.insert(1, "https://www.youtube.com/playlist?list=PLiD_zu1g02Hi748eJrWnkE-6LhKxOFQz6")
+label10.pack()
+yt3.pack()
+
 
 label23 = tkinter.Label(text="Control",
                       background=color,
@@ -501,7 +588,7 @@ tkinter.Button(root,
     width=20,
     justify=tkinter.RIGHT,
     height=1,
-    bg="#cf2dc1",
+    bg=bcolor,
     command=volume,
     fg="black").pack()
 
@@ -510,7 +597,7 @@ tkinter.Button(root,
                width=20,
                justify=tkinter.RIGHT,
                height=1,
-               bg="#cf2dc1",
+               bg=bcolor,
                command=onlystop,
                fg="black").pack()
 
@@ -519,7 +606,7 @@ tkinter.Button(root,
     width=20,
     justify=tkinter.RIGHT,
     height=1,
-    bg="#cf2dc1",
+    bg=bcolor,
     command=control,
     fg="black").pack()
 
@@ -533,7 +620,7 @@ tkinter.Button(root,
     width=20,
     justify=tkinter.RIGHT,
     height=1,
-    bg="#cf2dc1",
+    bg=bcolor,
     command=np,
     fg="black").pack()
 
@@ -542,18 +629,29 @@ tkinter.Button(root,
     width=20,
     justify=tkinter.RIGHT,
     height=1,
-    bg="#cf2dc1",
+    bg=bcolor,
     command=playl,
     fg="black").pack()
 
 tkinter.Button(root,
-    text="Lyrics",
+    text="Playlists",
     width=20,
     justify=tkinter.RIGHT,
     height=1,
-    bg="#cf2dc1",
-#    command=,
+    bg=bcolor,
+    command=lists,
     fg="black").pack()
+
+#tkinter.Button(root,
+#    text="Lyrics",
+#    width=20,
+#    justify=tkinter.RIGHT,
+#    height=1,
+#    bg="#cf2dc1",
+#    command=,
+#    fg="black").pack()
+
+
 
 label22 = tkinter.Label(text="Misc",
                       background=color,
@@ -566,7 +664,7 @@ tkinter.Button(root,
     width=20,
     justify=tkinter.RIGHT,
     height=1,
-    bg="#cf2dc1",
+    bg=bcolor,
     command=exiting,
     fg="black").pack()
 
@@ -575,7 +673,7 @@ tkinter.Button(root,
     width=20,
     justify=tkinter.RIGHT,
     height=1,
-    bg="#cf2dc1",
+    bg=bcolor,
     command=moreinfo,
     fg="black").pack()
 
@@ -584,7 +682,7 @@ tkinter.Button(root,
     width=20,
     justify=tkinter.RIGHT,
     height=1,
-    bg="#cf2dc1",
+    bg=bcolor,
     command=open,
     fg="black").pack()
 
