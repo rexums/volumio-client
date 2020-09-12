@@ -4,6 +4,8 @@ import webbrowser
 import tkinter.messagebox
 import sys
 
+
+
 debug = "false"
 
 url = 'https://discord.com/oauth2/authorize?client_id=665854713845121025&permissions=8&scope=bot'
@@ -13,10 +15,17 @@ botname = "Unique-Music"
 botwebsite = "https://unique-music.xyz/"
 support = "https://discord.gg/gCPFbBM"
 github = "https://github.com/rexjohannes/unique-player/"
-rawgit = "https://raw.githubusercontent.com/rexjohannes/unique-player/master/"
-download = rawgit + "main.py"
+download = botwebsite + "main.py"
+status = "https://unique-music.instatus.com"
 
-ver = requests.get(rawgit + "version.txt")
+try:
+    F = open("session.txt", "r")
+except:
+    pass
+#with open('data.json') as json_file:
+#    data = json.load(json_file)
+
+ver = requests.get(botwebsite + "version.txt")
 vers = ver.text
 vers = int(vers)
 
@@ -37,13 +46,17 @@ languages = [
     ("ReyFM:",4),
     ("ZoneRadio:",5),
     ("MashupFM:", 6),
-    ("89RTL:", 7)
+    ("89RTL:", 7),
+    ("CytRadio:", 8)
+
 ]
 
 def open():
     webbrowser.open(url)
     if debug == "true":
         print("Invite Me! executed")
+
+
 
 def exiting():
     sys.exit()
@@ -112,12 +125,74 @@ def clearplaylist():
         print("Executed clear")
         print(m.text)
 
+def playl():
+    try:
+        m = requests.get(apiurl + "?action=playlist&task=list&session=" + session.get())
+        videos = ""
+        for video in m.json()["videos"]:
+            videos += video["title"] + "\n"
+        tkinter.messagebox.showinfo(botname, videos)
+    except:
+        tkinter.messagebox.showinfo(botname, "An unknown error occurred")
+
+
 def website():
     webbrowser.open(botwebsite)
 
+def statuus():
+    webbrowser.open(status)
+
+def changelog():
+    try:
+        m = requests.get(botwebsite + "changelog.txt")
+        tkinter.messagebox.showinfo(botname, m.text)
+    except:
+        tkinter.messagebox.showinfo(botname, "An unknown error occurred")
 
 def login():
     webbrowser.open(apiurl + "?action=login")
+
+def control():
+    root3 = tkinter.Tk()
+    root3.title(botname)
+    root3.configure(background=color)
+
+    tkinter.Label(root3,
+                  text="""Control:""",
+                  justify=tkinter.LEFT,
+                  background=color,
+                  padx=20).pack()
+
+    tkinter.Button(root3,
+                   text="Skip",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg="#cf2dc1",
+                   command=skip,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="Shuffle",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg="#cf2dc1",
+                   command=shuffle,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="Clear",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg="#cf2dc1",
+                   command=clearplaylist,
+                   fg="black").pack()
+
+    root3.mainloop()
+
+
 
 tkinter.Button(root,
     text="Login",
@@ -131,7 +206,10 @@ tkinter.Button(root,
 label333 = tkinter.Label(text="Session",
                       background=color)
 session = tkinter.Entry()
-session.insert(1, "")
+try:
+    session.insert(1, F.read())
+except:
+    session.insert(1,"")
 label333.pack()
 session.pack()
 
@@ -157,6 +235,64 @@ def radios():
                             value=val).pack(anchor=tkinter.W)
 
     root2.mainloop()
+
+def moreinfo():
+    root3 = tkinter.Tk()
+    root3.title(botname)
+    root3.configure(background=color)
+
+    tkinter.Label(root3,
+                  text="""Misc""",
+                  justify=tkinter.LEFT,
+                  background=color,
+                  padx=20).pack()
+
+    tkinter.Button(root3,
+                   text="Contact",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg="#cf2dc1",
+                   command=feedback,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="Stats + Credits",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg="#cf2dc1",
+                   command=other,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="Website",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg="#cf2dc1",
+                   command=website,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="Changelog",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg="#cf2dc1",
+                   command=changelog,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="Status",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg="#cf2dc1",
+                   command=statuus,
+                   fg="black").pack()
+
+
 
 def feedback():
     root3 = tkinter.Tk()
@@ -260,27 +396,39 @@ def ShowChoice():
     i = v.get()
     if i == 0:
         m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=https://stream.laut.fm/rexradio")
+        requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
         tkinter.messagebox.showinfo(botname, m.json()["response"])
     if i == 1:
         m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=https://streams.ilovemusic.de/iloveradio1.mp3")
+        requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
         tkinter.messagebox.showinfo(botname, m.json()["response"])
     if i == 2:
         m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=https://streams.ilovemusic.de/iloveradio2.mp3")
+        requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
         tkinter.messagebox.showinfo(botname, m.json()["response"])
     if i == 3:
         m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=https://streams.ilovemusic.de/iloveradio5.mp3")
+        requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
         tkinter.messagebox.showinfo(botname, m.json()["response"])
     if i == 4:
         m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=https://reyfm-stream04.radiohost.de/reyfm-original_mp3-320")
+        requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
         tkinter.messagebox.showinfo(botname, m.json()["response"])
     if i == 5:
         m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=https://stream01.zoneradio.de/zoneradio_hq")
+        requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
         tkinter.messagebox.showinfo(botname, m.json()["response"])
     if i == 6:
         m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=https://stream.laut.fm/mashupfm")
+        requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
         tkinter.messagebox.showinfo(botname, m.json()["response"])
     if i == 7:
         m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=http://stream.89.0rtl.de/live/mp3-128/direktlinkHP/")
+        requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
+        tkinter.messagebox.showinfo(botname, m.json()["response"])
+    if i == 8:
+        m = requests.get(apiurl + "?action=radio&session=" + session.get() + "&stream=http://stream.laut.fm/cytradio")
+        requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
         tkinter.messagebox.showinfo(botname, m.json()["response"])
 
     if debug == "true":
@@ -342,6 +490,7 @@ yt2.insert(1, "NCS Polka")
 label5.pack()
 yt2.pack()
 
+
 label23 = tkinter.Label(text="Control",
                       background=color,
                       padx=50)
@@ -357,49 +506,30 @@ tkinter.Button(root,
     fg="black").pack()
 
 tkinter.Button(root,
-    text="Skip",
-    width=20,
-    justify=tkinter.RIGHT,
-    height=1,
-    bg="#cf2dc1",
-    command=skip,
-    fg="black").pack()
+               text="Stop",
+               width=20,
+               justify=tkinter.RIGHT,
+               height=1,
+               bg="#cf2dc1",
+               command=onlystop,
+               fg="black").pack()
 
 tkinter.Button(root,
-    text="Shuffle",
+    text="More",
     width=20,
     justify=tkinter.RIGHT,
     height=1,
     bg="#cf2dc1",
-    command=shuffle,
+    command=control,
     fg="black").pack()
 
-tkinter.Button(root,
-    text="Clear",
-    width=20,
-    justify=tkinter.RIGHT,
-    height=1,
-    bg="#cf2dc1",
-    command=clearplaylist,
-    fg="black").pack()
-
-
-tkinter.Button(root,
-    text="Stop",
-    width=20,
-    justify=tkinter.RIGHT,
-    height=1,
-    bg="#cf2dc1",
-    command=onlystop,
-    fg="black").pack()
-
-label22 = tkinter.Label(text="Misc",
+label222 = tkinter.Label(text="Player",
                       background=color,
-                      padx=60)
-label22.pack()
+                      padx=55)
+label222.pack()
 
 tkinter.Button(root,
-    text="Playing",
+    text="Now",
     width=20,
     justify=tkinter.RIGHT,
     height=1,
@@ -407,14 +537,29 @@ tkinter.Button(root,
     command=np,
     fg="black").pack()
 
-#tkinter.Button(root,
-#    text="Lyrics",
-#    width=20,
-#    justify=tkinter.RIGHT,
-#    height=1,
-#    bg="#cf2dc1",
-#    command=lyrics,
-#    fg="black").pack()
+tkinter.Button(root,
+    text="Queue",
+    width=20,
+    justify=tkinter.RIGHT,
+    height=1,
+    bg="#cf2dc1",
+    command=playl,
+    fg="black").pack()
+
+tkinter.Button(root,
+    text="Lyrics",
+    width=20,
+    justify=tkinter.RIGHT,
+    height=1,
+    bg="#cf2dc1",
+#    command=,
+    fg="black").pack()
+
+label22 = tkinter.Label(text="Misc",
+                      background=color,
+                      padx=60)
+label22.pack()
+
 
 tkinter.Button(root,
     text="Exit",
@@ -426,31 +571,12 @@ tkinter.Button(root,
     fg="black").pack()
 
 tkinter.Button(root,
-    text="Contact",
+    text="More",
     width=20,
     justify=tkinter.RIGHT,
     height=1,
     bg="#cf2dc1",
-    command=feedback,
-    fg="black").pack()
-
-
-tkinter.Button(root,
-    text="Stats + Credits",
-    width=20,
-    justify=tkinter.RIGHT,
-    height=1,
-    bg="#cf2dc1",
-    command=other,
-    fg="black").pack()
-
-tkinter.Button(root,
-    text="Website",
-    width=20,
-    justify=tkinter.RIGHT,
-    height=1,
-    bg="#cf2dc1",
-    command=website,
+    command=moreinfo,
     fg="black").pack()
 
 tkinter.Button(root,
@@ -462,7 +588,7 @@ tkinter.Button(root,
     command=open,
     fg="black").pack()
 
-if vers == 1:
+if vers == 2:
     pass
 
 else:
