@@ -26,7 +26,7 @@ except:
 
 
 
-debug = "true"
+debug = "false"
 
 url = 'https://discord.com/oauth2/authorize?client_id=665854713845121025&permissions=8&scope=bot'
 #color = "#9e6cf5"
