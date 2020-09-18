@@ -816,7 +816,7 @@ tkinter.Button(root,
     command=open,
     fg="black").pack()
 
-if vers == 3:
+if vers == 4:
     pass
 
 else:
