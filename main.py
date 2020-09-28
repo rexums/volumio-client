@@ -23,13 +23,9 @@ try:
 except:
     pass
 
-
-
-
 debug = "false"
 
 url = 'https://discord.com/oauth2/authorize?client_id=665854713845121025&permissions=8&scope=bot'
-#color = "#9e6cf5"
 color = "#CCEEFF"
 apiurl = "https://api.unique-music.xyz/"
 botname = "Unique-Music"
@@ -39,16 +35,11 @@ github = "https://github.com/rexjohannes/unique-player/"
 download = botwebsite + "main.py"
 status = "https://unique-music.instatus.com"
 bcolor = "#F7819F"
-#bcolor = "#cf2dc1"
-
 
 try:
     F = open("session.txt", "r")
 except:
     pass
-
-#with open('data.json') as json_file:
-#    data = json.load(json_file)
 
 ver = requests.get(botwebsite + "version.txt")
 vers = ver.text
@@ -56,8 +47,19 @@ vers = int(vers)
 
 root = tkinter.Tk()
 root.title(botname)
-root.iconphoto(False, tkinter.PhotoImage(file='icon.png'))
 root.configure(background=color)
+
+try:
+    root.iconphoto(False, tkinter.PhotoImage(file='icon.png'))
+except:
+    pass
+
+try:
+    requests.get(apiurl)
+except:
+    tkinter.messagebox.showinfo(botname, "Servers are offline")
+    sys.exit()
+
 
 #tabControl = ttk.Notebook(root)
 #tab1 = tkinter.Frame(tabControl)
@@ -66,8 +68,6 @@ root.configure(background=color)
 #tab4 = tkinter.Frame(tabControl)
 #tab5 = tkinter.Frame(tabControl)
 #tab6 = tkinter.Frame(tabControl)
-
-
 
 #tabControl.add(tab1, text ='Login')
 #tabControl.add(tab2, text ='Main')
@@ -78,41 +78,37 @@ root.configure(background=color)
 
 #tabControl.pack()
 
-
-
 def open():
     webbrowser.open(url)
     if debug == "true":
         print("Invite Me! executed")
 
-
-
 def exiting():
     sys.exit()
 
 def onlystop():
-    m = requests.get(apiurl + "?action=leave&session=" + session.get())
+    m = requests.get(apiurl + "leave?session=" + session.get())
     tkinter.messagebox.showinfo(botname,m.json()["response"])
     if debug == "true":
         print("Stop executed")
         print(m.text)
 
 def volume():
-    m = requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
+    m = requests.get(apiurl + "volume?session=" + session.get() + "&volume=" + vol.get())
     tkinter.messagebox.showinfo(botname, m.json()["response"])
     if debug == "true":
         print("Volume executed")
         print(m.text)
 
 def np():
-    m = requests.get(apiurl + "?action=status&session=" + session.get())
+    m = requests.get(apiurl + "status?session=" + session.get())
     tkinter.messagebox.showinfo(botname, m.json()["title"])
     if debug == "true":
         print("Now Playing executed")
         print(m.text)
 
 def other():
-    m = requests.get(apiurl + "?action=stats")
+    m = requests.get(apiurl + "stats")
     tkinter.messagebox.showinfo(botname,m.json()["guilds"] + " - Server\n" + m.json()["users"] + " - User\n" + m.json()["channels"] + " - Channel\n"+ m.json()["cpu"] + " - CPU\n" + m.json()["ram"] + " - RAM\n" + m.json()["botUptime"] + " - Bot-Uptime\n" + m.json()["ping"] + " - Ping")
     if debug == "true":
         print("Stats executed")
@@ -125,14 +121,14 @@ def credits():
 
 
 def youtube():
-    m = requests.get(apiurl + "?action=play&session=" + session.get() + "&search=" + yt2.get())
+    m = requests.get(apiurl + "play?session=" + session.get() + "&search=" + yt2.get())
     tkinter.messagebox.showinfo(botname, m.json()["title"])
     if debug == "true":
         print("Executed YouTube")
         print(m.text)
 
 def dmnp():
-    m = requests.get(apiurl + "?action=notifications&session=" + session.get())
+    m = requests.get(apiurl + "notifications?session=" + session.get())
     tkinter.messagebox.showinfo(botname, m.json()["response"])
     if debug == "true":
         print("Executed DM NP")
@@ -140,30 +136,29 @@ def dmnp():
 
 
 def stream():
-    m = requests.get(apiurl + "?action=stream&session=" + session.get() + "&stream=" + yt.get())
+    m = requests.get(apiurl + "stream?session=" + session.get() + "&stream=" + yt.get())
     tkinter.messagebox.showinfo(botname, m.json()["response"])
     if debug == "true":
         print("Executed Stream")
         print(m.text)
 
 
-
 def skip():
-    m = requests.get(apiurl + "?action=playlist&session=" + session.get() + "&task=skip")
+    m = requests.get(apiurl + "playlist?session=" + session.get() + "&task=skip")
     tkinter.messagebox.showinfo(botname, m.json()["response"])
     if debug == "true":
         print("Executed Skip")
         print(m.text)
 
 def shuffle():
-    m = requests.get(apiurl + "?action=playlist&session=" + session.get() + "&task=shuffle")
+    m = requests.get(apiurl + "playlist?session=" + session.get() + "&task=shuffle")
     tkinter.messagebox.showinfo(botname, m.json()["response"])
     if debug == "true":
         print("Executed shuffle")
         print(m.text)
 
 def clearplaylist():
-    m = requests.get(apiurl + "?action=playlist&task=clear&session=" + session.get())
+    m = requests.get(apiurl + "playlist?task=clear&session=" + session.get())
     tkinter.messagebox.showinfo(botname, m.json()["response"])
     if debug == "true":
         print("Executed clear")
@@ -171,7 +166,7 @@ def clearplaylist():
 
 def playl():
     try:
-        m = requests.get(apiurl + "?action=playlist&task=list&session=" + session.get())
+        m = requests.get(apiurl + "playlist?task=list&session=" + session.get())
         videos = ""
         for video in m.json()["videos"]:
             videos += video["title"] + "\n"
@@ -194,7 +189,7 @@ def changelog():
         tkinter.messagebox.showinfo(botname, "An unknown error occurred")
 
 def login():
-    webbrowser.open(apiurl + "?action=login")
+    webbrowser.open(apiurl + "login")
 
 def control():
     root3 = tkinter.Tk()
@@ -270,6 +265,138 @@ except:
 label333.pack()
 session.pack()
 
+def radios():
+    root3 = tkinter.Tk()
+    root3.title(botname)
+    root3.configure(background=color)
+
+    def rexradio():
+        m = requests.get(apiurl + "stream?session=" + session.get() + "&stream=https://stream.laut.fm/rexradio")
+        tkinter.messagebox.showinfo(botname, m.json()["response"])
+
+    def iloveradio():
+        m = requests.get(apiurl + "stream?session=" + session.get() + "&stream=https://streams.ilovemusic.de/iloveradio1.mp3")
+        tkinter.messagebox.showinfo(botname, m.json()["response"])
+
+    def ilove2dance():
+        m = requests.get(apiurl + "stream?session=" + session.get() + "&stream=https://streams.ilovemusic.de/iloveradio2.mp3")
+        tkinter.messagebox.showinfo(botname, m.json()["response"])
+
+    def ilovemashup():
+        m = requests.get(apiurl + "stream?session=" + session.get() + "&stream=https://streams.ilovemusic.de/iloveradio5.mp3")
+        tkinter.messagebox.showinfo(botname, m.json()["response"])
+
+    def reyfm():
+        m = requests.get(apiurl + "stream?session=" + session.get() + "&stream=https://reyfm-stream04.radiohost.de/reyfm-original_mp3-320")
+        tkinter.messagebox.showinfo(botname, m.json()["response"])
+
+    def zoneradio():
+        m = requests.get(apiurl + "stream?session=" + session.get() + "&stream=https://stream01.zoneradio.de/zoneradio_hq")
+        tkinter.messagebox.showinfo(botname, m.json()["response"])
+
+    def mashupfm():
+        m = requests.get(apiurl + "stream?session=" + session.get() + "&stream=https://stream.laut.fm/mashupfm")
+        tkinter.messagebox.showinfo(botname, m.json()["response"])
+
+    def rtl():
+        m = requests.get(apiurl + "stream?session=" + session.get() + "&stream=http://stream.89.0rtl.de/live/mp3-128/direktlinkHP/")
+        tkinter.messagebox.showinfo(botname, m.json()["response"])
+
+    def cyt():
+        m = requests.get(apiurl + "stream?session=" + session.get() + "&stream=http://stream.laut.fm/cytradio")
+        tkinter.messagebox.showinfo(botname, m.json()["response"])
+
+
+    tkinter.Label(root3,
+                  text="""Radios:""",
+                  justify=tkinter.LEFT,
+                  background=color,
+                  padx=20).pack()
+
+    tkinter.Button(root3,
+                   text="RexRadio",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg=bcolor,
+                   command=rexradio,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="ILoveRadio",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg=bcolor,
+                   command=iloveradio,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="ILove2Dance",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg=bcolor,
+                   command=ilove2dance,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="ILoveMashup",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg=bcolor,
+                   command=ilovemashup,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="ReyFM",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg=bcolor,
+                   command=reyfm,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="ZoneRadio",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg=bcolor,
+                   command=zoneradio,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="MashupFM",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg=bcolor,
+                   command=mashupfm,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="89.0 RTL",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg=bcolor,
+                   command=rtl,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="CytRadio",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg=bcolor,
+                   command=cyt,
+                   fg="black").pack()
+
+    root3.mainloop()
+
+
 #def radios():
 
 #    root2 = tkinter.Tk()
@@ -295,39 +422,39 @@ session.pack()
 #        i = v.get()
 #        if i == 0:
 #            m = requests.get(
-#                apiurl + "?action=stream&session=" + session.get() + "&stream=https://stream.laut.fm/rexradio")
+#                apiurl + "stream&session=" + session.get() + "&stream=https://stream.laut.fm/rexradio")
 #            tkinter.messagebox.showinfo(botname, m.json()["response"])
 #        if i == 1:
 #            m = requests.get(
-#                apiurl + "?action=stream&session=" + session.get() + "&stream=https://streams.ilovemusic.de/iloveradio1.mp3")
+#                apiurl + "stream&session=" + session.get() + "&stream=https://streams.ilovemusic.de/iloveradio1.mp3")
  #           tkinter.messagebox.showinfo(botname, m.json()["response"])
 #        if i == 2:
 #            m = requests.get(
-#                apiurl + "?action=stream&session=" + session.get() + "&stream=https://streams.ilovemusic.de/iloveradio2.mp3")
+#                apiurl + "stream&session=" + session.get() + "&stream=https://streams.ilovemusic.de/iloveradio2.mp3")
 #            tkinter.messagebox.showinfo(botname, m.json()["response"])
 #        if i == 3:
 #            m = requests.get(
-#                apiurl + "?action=stream&session=" + session.get() + "&stream=https://streams.ilovemusic.de/iloveradio5.mp3")
+#                apiurl + "stream&session=" + session.get() + "&stream=https://streams.ilovemusic.de/iloveradio5.mp3")
 #            tkinter.messagebox.showinfo(botname, m.json()["response"])
 #        if i == 4:
 #            m = requests.get(
-#                apiurl + "?action=stream&session=" + session.get() + "&stream=https://reyfm-stream04.radiohost.de/reyfm-original_mp3-320")
+#                apiurl + "stream&session=" + session.get() + "&stream=https://reyfm-stream04.radiohost.de/reyfm-original_mp3-320")
 #            tkinter.messagebox.showinfo(botname, m.json()["response"])
 #        if i == 5:
 #            m = requests.get(
-#                apiurl + "?action=stream&session=" + session.get() + "&stream=https://stream01.zoneradio.de/zoneradio_hq")
+#                apiurl + "stream&session=" + session.get() + "&stream=https://stream01.zoneradio.de/zoneradio_hq")
 #            tkinter.messagebox.showinfo(botname, m.json()["response"])
 #        if i == 6:
 #            m = requests.get(
-#                apiurl + "?action=stream&session=" + session.get() + "&stream=https://stream.laut.fm/mashupfm")
+#                apiurl + "stream&session=" + session.get() + "&stream=https://stream.laut.fm/mashupfm")
 #            tkinter.messagebox.showinfo(botname, m.json()["response"])
 #        if i == 7:
 #            m = requests.get(
-#                apiurl + "?action=stream&session=" + session.get() + "&stream=http://stream.89.0rtl.de/live/mp3-128/direktlinkHP/")
+#                apiurl + "stream&session=" + session.get() + "&stream=http://stream.89.0rtl.de/live/mp3-128/direktlinkHP/")
 #            tkinter.messagebox.showinfo(botname, m.json()["response"])
 #        if i == 8:
 #            m = requests.get(
-#                apiurl + "?action=radio&session=" + session.get() + "&stream=http://stream.laut.fm/cytradio")
+#                apiurl + "radio&session=" + session.get() + "&stream=http://stream.laut.fm/cytradio")
 #            tkinter.messagebox.showinfo(botname, m.json()["response"])
 
  #       if debug == "true":
@@ -432,36 +559,42 @@ def moreinfo():
 
 
 def ytplaylist():
-    m = requests.get(apiurl + "?action=playlist&session=" + session.get() + "&task=add&id=" + yt3.get())
-    requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
+    m = requests.get(apiurl + "playlist?session=" + session.get() + "&task=youtube&id=" + yt3.get())
+    requests.get(apiurl + "volume?session=" + session.get() + "&volume=" + vol.get())
     tkinter.messagebox.showinfo(botname, m.json()["response"])
     if debug == "true":
         print(m.text)
 
 def pause():
-    m = requests.get(apiurl + "?action=pause&session=" + session.get())
+    m = requests.get(apiurl + "pause?session=" + session.get())
     tkinter.messagebox.showinfo(botname, m.json()["respone"])
     if debug == "true":
         print(m.text)
 
 def charts():
-    m = requests.get(apiurl + "?action=playlist&session=" + session.get() + "&task=add&id=PLxhnpe8pN3TmtjcQM7zcYAKhQXPdOHS3Y")
-    requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
+    m = requests.get(apiurl + "playlist?session=" + session.get() + "&task=youtube&id=PLxhnpe8pN3TmtjcQM7zcYAKhQXPdOHS3Y")
+    requests.get(apiurl + "volume?session=" + session.get() + "&volume=" + vol.get())
+    tkinter.messagebox.showinfo(botname, m.json()["response"])
+    if debug == "true":
+        print(m.text)
+
+def spotify():
+    m = requests.get(apiurl + "playlist?task=spotify&id=" + sp.get() + "&session=" + session.get())
     tkinter.messagebox.showinfo(botname, m.json()["response"])
     if debug == "true":
         print(m.text)
 
 
 def ncspl():
-    m = requests.get(apiurl + "?action=playlist&session=" + session.get() + "&task=add&id=PLRBp0Fe2GpglvwYma4hf0fJy0sWaNY_CL")
-    requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
+    m = requests.get(apiurl + "playlist?session=" + session.get() + "&task=youtube?id=PLRBp0Fe2GpglvwYma4hf0fJy0sWaNY_CL")
+    requests.get(apiurl + "volume&session=" + session.get() + "&volume=" + vol.get())
     tkinter.messagebox.showinfo(botname, m.json()["response"])
     if debug == "true":
         print(m.text)
 
 def edmm():
-    m = requests.get(apiurl + "?action=playlist&session=" + session.get() + "&task=add&id=PLiD_zu1g02Hi748eJrWnkE-6LhKxOFQz6")
-    requests.get(apiurl + "?action=volume&session=" + session.get() + "&volume=" + vol.get())
+    m = requests.get(apiurl + "playlist?session=" + session.get() + "&task=youtube&id=PLiD_zu1g02Hi748eJrWnkE-6LhKxOFQz6")
+    requests.get(apiurl + "volume?session=" + session.get() + "&volume=" + vol.get())
     tkinter.messagebox.showinfo(botname, m.json()["response"])
     if debug == "true":
         print(m.text)
@@ -544,19 +677,19 @@ def feedback():
     bug.pack()
 
     def sendfeed():
-        m = requests.get(apiurl + "?action=feedback&message=" + feed.get() + "&session=" + session.get())
+        m = requests.get(apiurl + "feedback?message=" + feed.get() + "&session=" + session.get())
         tkinter.messagebox.showinfo(botname, m.json()["response"])
         if debug == "true":
             print(m.text)
 
     def sendsug():
-        m = requests.get(apiurl + "?action=suggestions&message=" + sug.get() + "&session=" + session.get())
+        m = requests.get(apiurl + "suggestions?message=" + sug.get() + "&session=" + session.get())
         tkinter.messagebox.showinfo(botname, m.json()["response"])
         if debug == "true":
             print(m.text)
 
     def sendbug():
-        m = requests.get(apiurl + "?action=bugs&message=" + bug.get() + "&session=" + session.get())
+        m = requests.get(apiurl + "bugs?message=" + bug.get() + "&session=" + session.get())
         tkinter.messagebox.showinfo(botname, m.json()["response"])
         if debug == "true":
             print(m.text)
@@ -649,12 +782,30 @@ def addmore():
                    fg="black").pack()
 
     tkinter.Button(root3,
-                   text="YouTube Playlist",
+                   text="Radios",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg=bcolor,
+                   command=radios,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="YouTubePlaylist",
                    width=20,
                    justify=tkinter.RIGHT,
                    height=1,
                    bg=bcolor,
                    command=ytplaylist,
+                   fg="black").pack()
+
+    tkinter.Button(root3,
+                   text="Spotify",
+                   width=20,
+                   justify=tkinter.RIGHT,
+                   height=1,
+                   bg=bcolor,
+                   command=spotify,
                    fg="black").pack()
 
     root3.mainloop()
@@ -668,9 +819,6 @@ tkinter.Button(root,
                bg=bcolor,
                command=addmore,
                fg="black").pack()
-
-
-
 
 
 vollabel = tkinter.Label(root,
@@ -705,6 +853,14 @@ yt3 = tkinter.Entry(root)
 yt3.insert(1, "https://www.youtube.com/playlist?list=PLiD_zu1g02Hi748eJrWnkE-6LhKxOFQz6")
 label10.pack()
 yt3.pack()
+
+label12 = tkinter.Label(root,
+                        text="Spotify",
+                      background=color)
+sp = tkinter.Entry(root)
+sp.insert(1, "2lfAwrTGw2rbXLJf7elpo9")
+label12.pack()
+sp.pack()
 
 
 label23 = tkinter.Label(root,
@@ -816,7 +972,7 @@ tkinter.Button(root,
     command=open,
     fg="black").pack()
 
-if vers == 4:
+if vers == 5:
     pass
 
 else:
@@ -826,5 +982,6 @@ else:
 
 if debug == "true":
     print(vers)
+
 
 root.mainloop()
