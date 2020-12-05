@@ -1,5 +1,7 @@
 # Unique-Music
 
+### Currently Offline
+
 Download <a href="https://unique-music.xyz/icon.png">Logo</a> + <a href="https://unique-music.xyz/main.py">Program</a>
 
 RPC: https://github.com/rexjohannes/unique-player/releases/download/beta1.1/rpc.py
